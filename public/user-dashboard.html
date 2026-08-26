@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard - SecureCloud Monitor</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">🛡️</div>
+        <div>
+          <div class="brand-title">SECURECLOUD</div>
+          <div class="brand-subtitle">User Workspace</div>
+        </div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="menu-category">Main</li>
+        <li class="menu-item">
+          <a href="/user-dashboard.html" class="menu-link active">
+            <span class="icon">📊</span> Overview
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="/files.html" class="menu-link">
+            <span class="icon">📁</span> Encrypted Vault
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="/activity.html" class="menu-link">
+            <span class="icon">📜</span> Activity Trail
+          </a>
+        </li>
+
+        <li class="menu-category">Account</li>
+        <li class="menu-item">
+          <a href="/profile.html" class="menu-link">
+            <span class="icon">⚙️</span> Profile & Security
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="javascript:void(0)" onclick="handleLogout()" class="menu-link" style="color: var(--sev-critical-text);">
+            <span class="icon">🚪</span> Sign Out
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="user-avatar" id="sidebar-user-avatar">US</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebar-user-name">User Account</div>
+            <div class="user-role-badge role-user" id="sidebar-user-role">USER</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+      <header class="topbar">
+        <div class="page-breadcrumb">
+          <span>SecureCloud</span>
+          <span>/</span>
+          <span class="current">User Dashboard</span>
+        </div>
+        <div class="topbar-actions">
+          <span class="simulated-tag-badge">
+            <span class="pulse-dot"></span>
+            SIMULATED — AWS integration planned
+          </span>
+          <a href="/files.html" class="btn btn-primary btn-sm">+ Upload File</a>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <!-- Welcome Banner -->
+        <div class="soc-card" style="margin-bottom: 24px; background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(59, 130, 246, 0.05));">
+          <h2 style="font-size: 20px; margin-bottom: 6px;">Welcome back, <span id="user-welcome-name" style="color: var(--cyber-cyan);">User</span> 👋</h2>
+          <p style="color: var(--text-secondary); font-size: 13px;">
+            Your personal secure cloud repository is active with SHA-256 cryptographic verification and full audit tracing.
+          </p>
+        </div>
+
+        <!-- Metric Cards -->
+        <div class="card-grid">
+          <div class="soc-card">
+            <div class="soc-card-header">
+              <span class="soc-card-title">Stored Files</span>
+              <div class="soc-card-icon">📁</div>
+            </div>
+            <div class="soc-card-value" id="user-files-count">0</div>
+            <div class="soc-card-desc">Encrypted items in vault</div>
+          </div>
+
+          <div class="soc-card">
+            <div class="soc-card-header">
+              <span class="soc-card-title">Storage Consumed</span>
+              <div class="soc-card-icon">💾</div>
+            </div>
+            <div class="soc-card-value" id="user-storage-size">0 B</div>
+            <div class="soc-card-desc">Calculated byte usage</div>
+          </div>
+
+          <div class="soc-card">
+            <div class="soc-card-header">
+              <span class="soc-card-title">Security State</span>
+              <div class="soc-card-icon" style="color: var(--cyber-emerald);">🛡️</div>
+            </div>
+            <div class="soc-card-value" style="color: var(--cyber-emerald); font-size: 24px; line-height: 1.3;">PROTECTED</div>
+            <div class="soc-card-desc">Tenant isolation enforced</div>
+          </div>
+        </div>
+
+        <!-- Recent Files Panel -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>📄</span> Recent Stored Files
+            </div>
+            <a href="/files.html" class="btn btn-outline btn-sm">View All Vault Files →</a>
+          </div>
+          <div class="table-responsive">
+            <table class="soc-table">
+              <thead>
+                <tr>
+                  <th>File Name</th>
+                  <th>Size</th>
+                  <th>Integrity Checksum (SHA-256)</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="user-recent-files">
+                <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Loading vault files...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Recent Activity Trail -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>📜</span> Recent Account Activity
+            </div>
+            <a href="/activity.html" class="btn btn-outline btn-sm">Full Activity Trail →</a>
+          </div>
+          <div class="table-responsive">
+            <table class="soc-table">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Details</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody id="user-recent-activity">
+                <tr><td colspan="3" style="text-align: center; color: var(--text-muted);">Loading activity...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', initUserDashboard);
+  </script>
+</body>
+</html>

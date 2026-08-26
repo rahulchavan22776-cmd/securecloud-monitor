@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Engine Settings - SecureCloud Monitor</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">🛡️</div>
+        <div>
+          <div class="brand-title">SECURECLOUD</div>
+          <div class="brand-subtitle">SOC Console</div>
+        </div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="menu-category">Operations Center</li>
+        <li class="menu-item">
+          <a href="/admin-dashboard.html" class="menu-link">
+            <span class="icon">📊</span> SOC Dashboard
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="/alerts.html" class="menu-link">
+            <span class="icon">🚨</span> Security Alerts
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="/incidents.html" class="menu-link">
+            <span class="icon">🔥</span> Incidents
+          </a>
+        </li>
+
+        <li class="menu-category">Infrastructure & Rules</li>
+        <li class="menu-item">
+          <a href="/security-rules.html" class="menu-link">
+            <span class="icon">⚡</span> Detection Rules
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="/resources.html" class="menu-link">
+            <span class="icon">☁️</span> Cloud Inventory
+          </a>
+        </li>
+
+        <li class="menu-category">Governance</li>
+        <li class="menu-item">
+          <a href="/audit-logs.html" class="menu-link">
+            <span class="icon">📜</span> System Audit Trail
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="/admin-settings.html" class="menu-link active">
+            <span class="icon">⚙️</span> Engine Settings
+          </a>
+        </li>
+
+        <li class="menu-category">Session</li>
+        <li class="menu-item">
+          <a href="javascript:void(0)" onclick="handleLogout()" class="menu-link" style="color: var(--sev-critical-text);">
+            <span class="icon">🚪</span> Sign Out
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="user-avatar" id="sidebar-user-avatar">AD</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebar-user-name">Administrator</div>
+            <div class="user-role-badge role-admin" id="sidebar-user-role">ADMIN</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+      <header class="topbar">
+        <div class="page-breadcrumb">
+          <span>Governance</span>
+          <span>/</span>
+          <span class="current">Security Engine Thresholds & Config</span>
+        </div>
+        <div class="topbar-actions">
+          <span class="simulated-tag-badge">
+            <span class="pulse-dot"></span>
+            SIMULATED — AWS integration planned
+          </span>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <div class="panel" style="max-width: 800px;">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>⚙️</span> SOC Policy Thresholds & Alarm Trigger Configuration
+            </div>
+          </div>
+          <div class="panel-body">
+            <form id="admin-settings-form">
+              <div class="form-group">
+                <label for="setting-login-threshold" class="form-label">Brute-Force Failed Login Threshold (attempts / 15m)</label>
+                <input type="number" id="setting-login-threshold" class="form-control" min="1" max="100" required>
+                <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px;">
+                  Triggers HIGH severity alert when failed login attempts exceed this threshold.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="setting-cpu-threshold" class="form-label">EC2 Compute Anomaly Spike Threshold (% CPU)</label>
+                <input type="number" id="setting-cpu-threshold" class="form-control" min="10" max="100" required>
+                <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px;">
+                  Triggers MEDIUM severity alert when sustained instance CPU exceeds this percentage.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="setting-scan-interval" class="form-label">Autonomous Rule Engine Evaluation Interval (seconds)</label>
+                <input type="number" id="setting-scan-interval" class="form-control" min="10" max="3600" required>
+                <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px;">
+                  Background cycle interval for evaluating cloud resources and threat rules.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="setting-soc-email" class="form-label">SOC Incident Notification Recipient Email</label>
+                <input type="email" id="setting-soc-email" class="form-control" placeholder="soc-desk@company.com">
+              </div>
+
+              <div class="form-group">
+                <label for="setting-banner-msg" class="form-label">System-Wide Console Banner Message</label>
+                <input type="text" id="setting-banner-msg" class="form-control" placeholder="Optional security notice shown in console">
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="margin-top: 14px;">
+                Save Configuration Parameters
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', initAdminSettingsPage);
+  </script>
+</body>
+</html>

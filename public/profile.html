@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile & Security - SecureCloud Monitor</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">🛡️</div>
+        <div>
+          <div class="brand-title">SECURECLOUD</div>
+          <div class="brand-subtitle">User Workspace</div>
+        </div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="menu-category">Main</li>
+        <li class="menu-item">
+          <a href="/user-dashboard.html" class="menu-link">
+            <span class="icon">📊</span> Overview
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="/files.html" class="menu-link">
+            <span class="icon">📁</span> Encrypted Vault
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="/activity.html" class="menu-link">
+            <span class="icon">📜</span> Activity Trail
+          </a>
+        </li>
+
+        <li class="menu-category">Account</li>
+        <li class="menu-item">
+          <a href="/profile.html" class="menu-link active">
+            <span class="icon">⚙️</span> Profile & Security
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="javascript:void(0)" onclick="handleLogout()" class="menu-link" style="color: var(--sev-critical-text);">
+            <span class="icon">🚪</span> Sign Out
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="user-avatar" id="sidebar-user-avatar">US</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebar-user-name">User Account</div>
+            <div class="user-role-badge role-user" id="sidebar-user-role">USER</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+      <header class="topbar">
+        <div class="page-breadcrumb">
+          <span>SecureCloud</span>
+          <span>/</span>
+          <span class="current">Profile & Security Settings</span>
+        </div>
+        <div class="topbar-actions">
+          <span class="simulated-tag-badge">
+            <span class="pulse-dot"></span>
+            SIMULATED — AWS integration planned
+          </span>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <div class="panel" style="max-width: 700px;">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>👤</span> User Account & Authentication Security
+            </div>
+          </div>
+          <div class="panel-body">
+            <form id="profile-form">
+              <div class="form-group">
+                <label class="form-label">Username (Immutable)</label>
+                <input type="text" id="prof-username" class="form-control" disabled style="opacity: 0.7; cursor: not-allowed;">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Account Role</label>
+                <input type="text" id="prof-role" class="form-control" disabled style="opacity: 0.7; cursor: not-allowed;">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Member Since</label>
+                <input type="text" id="prof-created" class="form-control" disabled style="opacity: 0.7; cursor: not-allowed;">
+              </div>
+
+              <div class="form-group">
+                <label for="prof-email" class="form-label">Work Email Address</label>
+                <input type="email" id="prof-email" class="form-control" required>
+              </div>
+
+              <hr style="border: 0; border-top: 1px solid var(--border-subtle); margin: 24px 0;">
+
+              <h4 style="font-size: 14px; margin-bottom: 14px; color: var(--cyber-cyan);">Change Access Password</h4>
+
+              <div class="form-group">
+                <label for="prof-current-pass" class="form-label">Current Password</label>
+                <input type="password" id="prof-current-pass" class="form-control" placeholder="Required only if changing password">
+              </div>
+
+              <div class="form-group">
+                <label for="prof-new-pass" class="form-label">New Password</label>
+                <input type="password" id="prof-new-pass" class="form-control" placeholder="Minimum 6 characters">
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="margin-top: 10px;">
+                Save Profile Changes
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', initProfilePage);
+  </script>
+</body>
+</html>

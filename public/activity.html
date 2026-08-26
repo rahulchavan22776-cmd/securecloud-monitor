@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activity Trail - SecureCloud Monitor</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">🛡️</div>
+        <div>
+          <div class="brand-title">SECURECLOUD</div>
+          <div class="brand-subtitle">User Workspace</div>
+        </div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="menu-category">Main</li>
+        <li class="menu-item">
+          <a href="/user-dashboard.html" class="menu-link">
+            <span class="icon">📊</span> Overview
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="/files.html" class="menu-link">
+            <span class="icon">📁</span> Encrypted Vault
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="/activity.html" class="menu-link active">
+            <span class="icon">📜</span> Activity Trail
+          </a>
+        </li>
+
+        <li class="menu-category">Account</li>
+        <li class="menu-item">
+          <a href="/profile.html" class="menu-link">
+            <span class="icon">⚙️</span> Profile & Security
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="javascript:void(0)" onclick="handleLogout()" class="menu-link" style="color: var(--sev-critical-text);">
+            <span class="icon">🚪</span> Sign Out
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="user-avatar" id="sidebar-user-avatar">US</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebar-user-name">User Account</div>
+            <div class="user-role-badge role-user" id="sidebar-user-role">USER</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+      <header class="topbar">
+        <div class="page-breadcrumb">
+          <span>SecureCloud</span>
+          <span>/</span>
+          <span class="current">Activity Trail</span>
+        </div>
+        <div class="topbar-actions">
+          <span class="simulated-tag-badge">
+            <span class="pulse-dot"></span>
+            SIMULATED — AWS integration planned
+          </span>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>📜</span> Personal Security Audit Log
+            </div>
+            <div>
+              <select id="activity-filter" class="form-control" style="width: 200px; padding: 6px 12px; font-size: 12px;">
+                <option value="ALL">All Actions</option>
+                <option value="AUTH_LOGIN_SUCCESS">Login Success</option>
+                <option value="FILE_UPLOAD">File Uploads</option>
+                <option value="FILE_DOWNLOAD">File Downloads</option>
+                <option value="FILE_DELETE">File Deletions</option>
+                <option value="PROFILE_UPDATE">Profile Updates</option>
+                <option value="PASSWORD_CHANGE">Password Changes</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="soc-table">
+              <thead>
+                <tr>
+                  <th>Event Type</th>
+                  <th>Activity Description</th>
+                  <th>Source IP</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody id="user-activity-table">
+                <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Loading audit records...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', initActivityPage);
+  </script>
+</body>
+</html>

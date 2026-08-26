@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOC Command Center - SecureCloud Monitor</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">🛡️</div>
+        <div>
+          <div class="brand-title">SECURECLOUD</div>
+          <div class="brand-subtitle">SOC Console</div>
+        </div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="menu-category">Operations Center</li>
+        <li class="menu-item">
+          <a href="/admin-dashboard.html" class="menu-link active">
+            <span class="icon">📊</span> SOC Dashboard
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="/alerts.html" class="menu-link">
+            <span class="icon">🚨</span> Security Alerts
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="/incidents.html" class="menu-link">
+            <span class="icon">🔥</span> Incidents
+          </a>
+        </li>
+
+        <li class="menu-category">Infrastructure & Rules</li>
+        <li class="menu-item">
+          <a href="/security-rules.html" class="menu-link">
+            <span class="icon">⚡</span> Detection Rules
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="/resources.html" class="menu-link">
+            <span class="icon">☁️</span> Cloud Inventory
+          </a>
+        </li>
+
+        <li class="menu-category">Governance</li>
+        <li class="menu-item">
+          <a href="/audit-logs.html" class="menu-link">
+            <span class="icon">📜</span> System Audit Trail
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="/admin-settings.html" class="menu-link">
+            <span class="icon">⚙️</span> Engine Settings
+          </a>
+        </li>
+
+        <li class="menu-category">Session</li>
+        <li class="menu-item">
+          <a href="javascript:void(0)" onclick="handleLogout()" class="menu-link" style="color: var(--sev-critical-text);">
+            <span class="icon">🚪</span> Sign Out
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="user-avatar" id="sidebar-user-avatar">AD</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebar-user-name">Administrator</div>
+            <div class="user-role-badge role-admin" id="sidebar-user-role">ADMIN</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+      <header class="topbar">
+        <div class="page-breadcrumb">
+          <span>SOC Operations</span>
+          <span>/</span>
+          <span class="current">Command Center Overview</span>
+        </div>
+        <div class="topbar-actions">
+          <span class="simulated-tag-badge">
+            <span class="pulse-dot"></span>
+            SIMULATED — AWS integration planned
+          </span>
+          <button id="btn-manual-scan" class="btn btn-primary btn-sm">
+            ⚡ Run Security Scan
+          </button>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <!-- Security Score Banner Gauge -->
+        <div class="score-card">
+          <div>
+            <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cyber-cyan); font-weight: 700; margin-bottom: 6px;">
+              Continuous Posture Analysis
+            </div>
+            <h2 style="font-size: 26px; margin-bottom: 8px;">Cloud Perimeter Health Index</h2>
+            <p style="color: var(--text-secondary); max-width: 550px; font-size: 13px;">
+              Score dynamically calculated based on open critical alerts, unencrypted RDS datastores, exposed security groups, and active incident response cases.
+            </p>
+            <div style="margin-top: 14px; display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 12px; color: var(--text-muted);">Current Risk Level:</span>
+              <span id="metric-score-level" class="badge badge-secure">CALCULATING</span>
+            </div>
+          </div>
+
+          <div class="score-circle-wrapper">
+            <svg width="130" height="130" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8" />
+              <circle id="score-circle-svg" cx="60" cy="60" r="50" fill="none" stroke="#06B6D4" stroke-width="8"
+                      stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="60"
+                      transform="rotate(-90 60 60)" style="transition: stroke-dashoffset 0.8s ease, stroke 0.5s ease;" />
+            </svg>
+            <div class="score-circle-value">
+              <div class="score-circle-number" id="metric-score-value">--</div>
+              <div class="score-circle-label">SCORE</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SOC Metric Cards Grid -->
+        <div class="card-grid">
+          <div class="soc-card">
+            <div class="soc-card-header">
+              <span class="soc-card-title">Open Alerts</span>
+              <div class="soc-card-icon" style="color: var(--cyber-crimson);">🚨</div>
+            </div>
+            <div class="soc-card-value" id="metric-open-alerts">0</div>
+            <div class="soc-card-desc">
+              <span style="color: var(--sev-critical-text); font-weight: 700;" id="metric-crit-alerts">0</span> Critical &bull;
+              <span style="color: var(--sev-high-text); font-weight: 700;" id="metric-high-alerts">0</span> High
+            </div>
+          </div>
+
+          <div class="soc-card">
+            <div class="soc-card-header">
+              <span class="soc-card-title">Active Incidents</span>
+              <div class="soc-card-icon" style="color: var(--cyber-amber);">🔥</div>
+            </div>
+            <div class="soc-card-value" id="metric-incidents">0</div>
+            <div class="soc-card-desc">Requires triage or investigation</div>
+          </div>
+
+          <div class="soc-card">
+            <div class="soc-card-header">
+              <span class="soc-card-title">Cloud Resources</span>
+              <div class="soc-card-icon" style="color: var(--cyber-cyan);">☁️</div>
+            </div>
+            <div class="soc-card-value" id="metric-resources">0</div>
+            <div class="soc-card-desc">
+              <span style="color: var(--sev-critical-text); font-weight: 700;" id="metric-vulnerable-res">0</span> flagged vulnerable
+            </div>
+          </div>
+
+          <div class="soc-card">
+            <div class="soc-card-header">
+              <span class="soc-card-title">Active Rules</span>
+              <div class="soc-card-icon" style="color: var(--cyber-emerald);">⚡</div>
+            </div>
+            <div class="soc-card-value" id="metric-active-rules">0 / 0</div>
+            <div class="soc-card-desc">Rule engine active (60s cycle)</div>
+          </div>
+        </div>
+
+        <!-- Recent Alerts & Incidents 2-Column Split -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px;">
+          <!-- Recent Alerts -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">
+                <span>🚨</span> Real-Time Security Alerts
+              </div>
+              <a href="/alerts.html" class="btn btn-outline btn-sm">All Alerts →</a>
+            </div>
+            <div class="table-responsive">
+              <table class="soc-table">
+                <thead>
+                  <tr>
+                    <th>Severity</th>
+                    <th>Alert Title</th>
+                    <th>Status</th>
+                    <th>Logged</th>
+                  </tr>
+                </thead>
+                <tbody id="soc-recent-alerts">
+                  <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Loading alerts...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Recent Incidents -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">
+                <span>🔥</span> High-Priority Incidents
+              </div>
+              <a href="/incidents.html" class="btn btn-outline btn-sm">Incident Center →</a>
+            </div>
+            <div class="table-responsive">
+              <table class="soc-table">
+                <thead>
+                  <tr>
+                    <th>Severity</th>
+                    <th>Incident Summary</th>
+                    <th>Status</th>
+                    <th>Escalated</th>
+                  </tr>
+                </thead>
+                <tbody id="soc-recent-incidents">
+                  <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Loading incidents...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', initAdminDashboard);
+  </script>
+</body>
+</html>

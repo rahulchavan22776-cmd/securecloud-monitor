@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detection Rules - SecureCloud Monitor</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">🛡️</div>
+        <div>
+          <div class="brand-title">SECURECLOUD</div>
+          <div class="brand-subtitle">SOC Console</div>
+        </div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="menu-category">Operations Center</li>
+        <li class="menu-item">
+          <a href="/admin-dashboard.html" class="menu-link">
+            <span class="icon">📊</span> SOC Dashboard
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="/alerts.html" class="menu-link">
+            <span class="icon">🚨</span> Security Alerts
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="/incidents.html" class="menu-link">
+            <span class="icon">🔥</span> Incidents
+          </a>
+        </li>
+
+        <li class="menu-category">Infrastructure & Rules</li>
+        <li class="menu-item">
+          <a href="/security-rules.html" class="menu-link active">
+            <span class="icon">⚡</span> Detection Rules
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="/resources.html" class="menu-link">
+            <span class="icon">☁️</span> Cloud Inventory
+          </a>
+        </li>
+
+        <li class="menu-category">Governance</li>
+        <li class="menu-item">
+          <a href="/audit-logs.html" class="menu-link">
+            <span class="icon">📜</span> System Audit Trail
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="/admin-settings.html" class="menu-link">
+            <span class="icon">⚙️</span> Engine Settings
+          </a>
+        </li>
+
+        <li class="menu-category">Session</li>
+        <li class="menu-item">
+          <a href="javascript:void(0)" onclick="handleLogout()" class="menu-link" style="color: var(--sev-critical-text);">
+            <span class="icon">🚪</span> Sign Out
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="user-avatar" id="sidebar-user-avatar">AD</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebar-user-name">Administrator</div>
+            <div class="user-role-badge role-admin" id="sidebar-user-role">ADMIN</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+      <header class="topbar">
+        <div class="page-breadcrumb">
+          <span>Rule Engine</span>
+          <span>/</span>
+          <span class="current">Security Detection Rules</span>
+        </div>
+        <div class="topbar-actions">
+          <span class="simulated-tag-badge">
+            <span class="pulse-dot"></span>
+            SIMULATED — AWS integration planned
+          </span>
+          <button class="btn btn-primary btn-sm" onclick="openModal('modal-create-rule')">
+            + New Detection Rule
+          </button>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>⚡</span> Configured Cloud Security Detection Policies
+            </div>
+            <span style="font-size: 12px; color: var(--text-muted);">Evaluation Frequency: 60s background cycle</span>
+          </div>
+          <div class="table-responsive">
+            <table class="soc-table">
+              <thead>
+                <tr>
+                  <th style="width: 180px;">Rule Code</th>
+                  <th>Rule Name & Description</th>
+                  <th style="width: 160px;">Category</th>
+                  <th style="width: 120px;">Severity</th>
+                  <th style="width: 100px;">Active</th>
+                </tr>
+              </thead>
+              <tbody id="admin-rules-table">
+                <tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 30px;">Loading detection rules...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Create Rule Modal -->
+  <div id="modal-create-rule" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 style="font-size: 16px;">Define Custom Detection Rule</h3>
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('modal-create-rule')">✕</button>
+      </div>
+      <form id="create-rule-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="modal-rule-code" class="form-label">Rule Identifier Code</label>
+            <input type="text" id="modal-rule-code" class="form-control" placeholder="e.g. RULE_UNTAGGED_RESOURCES" required>
+          </div>
+
+          <div class="form-group">
+            <label for="modal-rule-name" class="form-label">Policy Display Name</label>
+            <input type="text" id="modal-rule-name" class="form-control" placeholder="e.g. Untagged Cloud Infrastructure Assets" required>
+          </div>
+
+          <div class="form-group">
+            <label for="modal-rule-cat" class="form-label">Domain Category</label>
+            <input type="text" id="modal-rule-cat" class="form-control" placeholder="e.g. Governance / Network / Identity" required>
+          </div>
+
+          <div class="form-group">
+            <label for="modal-rule-sev" class="form-label">Default Severity</label>
+            <select id="modal-rule-sev" class="form-control" required>
+              <option value="LOW">LOW</option>
+              <option value="MEDIUM">MEDIUM</option>
+              <option value="HIGH">HIGH</option>
+              <option value="CRITICAL">CRITICAL</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="modal-rule-desc" class="form-label">Rule Description & Logic</label>
+            <textarea id="modal-rule-desc" class="form-control" placeholder="Explain the security condition and threat vector"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('modal-create-rule')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Deploy Policy</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', initRulesPage);
+  </script>
+</body>
+</html>

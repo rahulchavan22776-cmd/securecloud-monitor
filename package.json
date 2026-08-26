@@ -1,0 +1,29 @@
+{
+  "name": "securecloud-monitor",
+  "version": "1.0.0",
+  "description": "Enterprise Cloud Security Monitoring & SOC Platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "cloud-security",
+    "soc",
+    "monitoring",
+    "express",
+    "mysql",
+    "cybersecurity"
+  ],
+  "author": "SecureCloud Team",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-mysql-session": "^3.0.3",
+    "express-session": "^1.18.0",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.9.7"
+  }
+}

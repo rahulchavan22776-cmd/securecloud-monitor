@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SecureCloud Monitor - Cloud Security & SOC Intelligence Platform</title>
+  <meta name="description" content="Next-generation centralized cloud security monitoring, threat detection, and SOC operations.">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body style="display: flex; flex-direction: column; min-height: 100vh;">
+
+  <!-- Top Navigation Header -->
+  <header style="background: rgba(14, 21, 36, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-color); padding: 18px 36px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100;">
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <div class="brand-logo">🛡️</div>
+      <div>
+        <div class="brand-title" style="font-size: 18px;">SECURECLOUD <span style="color: var(--cyber-cyan);">MONITOR</span></div>
+        <div class="brand-subtitle">Cloud Security Operations Center</div>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 16px;">
+      <span class="simulated-tag-badge">
+        <span class="pulse-dot"></span>
+        SIMULATED — AWS integration planned
+      </span>
+      <a href="/login.html" class="btn btn-outline">Sign In</a>
+      <a href="/register.html" class="btn btn-primary">Create Account</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main style="flex: 1; max-width: 1200px; margin: 0 auto; padding: 60px 24px; width: 100%;">
+    <div style="text-align: center; max-width: 800px; margin: 0 auto 60px;">
+      <div class="badge badge-low" style="margin-bottom: 16px; padding: 6px 14px; font-size: 12px;">
+        ⚡ Continuous Cloud Threat Intelligence & Compliance
+      </div>
+      <h1 style="font-size: 48px; line-height: 1.15; margin-bottom: 20px; background: linear-gradient(135deg, #FFFFFF 40%, #94A3B8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        Centralized Security Monitoring for Next-Gen Cloud Infrastructure
+      </h1>
+      <p style="font-size: 16px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 32px;">
+        Real-time telemetry, automated threat detection rules, encrypted data vaulting, and comprehensive incident response orchestration for AWS cloud environments.
+      </p>
+      <div style="display: flex; justify-content: center; gap: 16px;">
+        <a href="/login.html" class="btn btn-primary btn-lg">Launch SOC Console 🚀</a>
+        <a href="/register.html" class="btn btn-outline btn-lg">Deploy User Vault</a>
+      </div>
+    </div>
+
+    <!-- Feature Pillars -->
+    <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-bottom: 60px;">
+      <div class="soc-card">
+        <div class="soc-card-icon" style="color: var(--cyber-crimson); font-size: 22px;">🚨</div>
+        <h3 style="margin: 14px 0 8px; font-size: 18px;">Threat Rule Engine</h3>
+        <p style="color: var(--text-secondary); font-size: 13px;">
+          Autonomous correlation evaluating S3 bucket permissions, IAM excessive privileges, open security group ingress, and brute-force authentications.
+        </p>
+      </div>
+
+      <div class="soc-card">
+        <div class="soc-card-icon" style="color: var(--cyber-cyan); font-size: 22px;">📊</div>
+        <h3 style="margin: 14px 0 8px; font-size: 18px;">SOC Posture Score</h3>
+        <p style="color: var(--text-secondary); font-size: 13px;">
+          Dynamic security scoring engine quantifying perimeter risk, critical vulnerabilities, and active incident response status in real time.
+        </p>
+      </div>
+
+      <div class="soc-card">
+        <div class="soc-card-icon" style="color: var(--cyber-emerald); font-size: 22px;">🔒</div>
+        <h3 style="margin: 14px 0 8px; font-size: 18px;">Zero-Trust File Vault</h3>
+        <p style="color: var(--text-secondary); font-size: 13px;">
+          Secure user file repository featuring strict tenant isolation, SHA-256 cryptographic verification, extension sanitization, and audit tracing.
+        </p>
+      </div>
+    </div>
+
+    <!-- Architectural Mapping Card -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>🌐</span> Planned AWS Enterprise Architecture Integration
+        </div>
+        <span class="badge badge-low">Future Roadmap</span>
+      </div>
+      <div class="panel-body">
+        <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 13.5px;">
+          SecureCloud Monitor is architected locally using standard decoupled event patterns, allowing direct drop-in integration with core Amazon Web Services:
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+          <div style="background: rgba(10, 15, 26, 0.6); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+            <div style="font-weight: 700; color: var(--cyber-cyan); margin-bottom: 4px;">AWS CloudWatch & Alarms</div>
+            <div style="font-size: 12px; color: var(--text-secondary);">Real-time compute CPU metrics & anomaly alerts.</div>
+          </div>
+          <div style="background: rgba(10, 15, 26, 0.6); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+            <div style="font-weight: 700; color: var(--cyber-amber); margin-bottom: 4px;">AWS CloudTrail & GuardDuty</div>
+            <div style="font-size: 12px; color: var(--text-secondary);">Continuous API auditing & intelligent threat detection.</div>
+          </div>
+          <div style="background: rgba(10, 15, 26, 0.6); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+            <div style="font-weight: 700; color: var(--cyber-emerald); margin-bottom: 4px;">Amazon S3 & KMS</div>
+            <div style="font-size: 12px; color: var(--text-secondary);">Object storage buckets with hardware encryption at rest.</div>
+          </div>
+          <div style="background: rgba(10, 15, 26, 0.6); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+            <div style="font-weight: 700; color: var(--cyber-purple); margin-bottom: 4px;">Amazon Aurora / RDS</div>
+            <div style="font-size: 12px; color: var(--text-secondary);">Multi-AZ relational backend database cluster.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: rgba(8, 12, 20, 0.95); border-top: 1px solid var(--border-color); padding: 24px 36px; text-align: center; color: var(--text-muted); font-size: 12px;">
+    <div>SecureCloud Monitor &copy; 2026. Local Enterprise SOC Edition for Windows XAMPP & Node.js.</div>
+  </footer>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
