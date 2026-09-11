@@ -3,6 +3,10 @@
  * Enforces requireAuth and requireAdmin across all endpoints
  */
 
+const {
+  getEC2CPUUtilization
+} = require('../services/cloudwatchService');
+
 const express = require('express');
 const router = express.Router();
 const { query } = require('../db');
@@ -73,7 +77,20 @@ router.get('/metrics', async (req, res) => {
       LIMIT 5
     `);
 
-    // 7. Calculate Dynamic Security Posture Score (0 - 100)
+// 7. Get real AWS EC2 CPU from CloudWatch
+let ec2Cpu = null;
+
+if (process.env.AWS_EC2_INSTANCE_ID) {
+  try {
+    ec2Cpu = await getEC2CPUUtilization(
+      process.env.AWS_EC2_INSTANCE_ID
+    );
+  } catch (error) {
+    console.error('[CLOUDWATCH] Dashboard CPU error:', error.message);
+  }
+}
+
+// 8. Calculate Dynamic Security Posture Score (0 - 100)
     const crit = parseInt(alertCounts[0].open_critical || 0, 10);
     const high = parseInt(alertCounts[0].open_high || 0, 10);
     const med = parseInt(alertCounts[0].open_medium || 0, 10);
@@ -96,6 +113,14 @@ router.get('/metrics', async (req, res) => {
         alerts: alertCounts[0],
         incidents: incidentCounts[0],
         resources: resourceCounts[0],
+ec2Cpu: ec2Cpu
+  ? {
+      instanceId: ec2Cpu.instanceId,
+      average: ec2Cpu.average,
+      unit: ec2Cpu.unit,
+      timestamp: ec2Cpu.timestamp
+    }
+  : null,
         usersCount: userCount[0].count,
         filesCount: fileCount[0].count,
         rules: ruleCount[0],

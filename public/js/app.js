@@ -601,6 +601,25 @@ async function initAdminDashboard() {
       if (el) el.textContent = val !== undefined ? val : 0;
     }
 
+    // Real AWS EC2 CPU from CloudWatch
+    const ec2CpuValue = document.getElementById('metric-ec2-cpu');
+    const ec2CpuInstance = document.getElementById('metric-ec2-instance');
+    const ec2CpuUpdated = document.getElementById('metric-ec2-cpu-updated');
+
+    if (m.ec2Cpu) {
+      if (ec2CpuValue) {
+        ec2CpuValue.textContent = `${Number(m.ec2Cpu.average).toFixed(2)}%`;
+      }
+
+      if (ec2CpuInstance) {
+        ec2CpuInstance.textContent = m.ec2Cpu.instanceId;
+      }
+
+      if (ec2CpuUpdated) {
+        ec2CpuUpdated.textContent = `Updated: ${formatDate(m.ec2Cpu.timestamp)}`;
+      }
+    }
+
     // Recent Alerts
     const alertsTable = document.getElementById('soc-recent-alerts');
     if (alertsTable && m.recentAlerts) {

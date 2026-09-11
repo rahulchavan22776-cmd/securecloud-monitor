@@ -5,6 +5,9 @@
 
 const { query } = require('../db');
 const { logActivity } = require('../middleware/auth');
+const {
+  getEC2CPUUtilization
+} = require('./cloudwatchService');
 
 class SecurityEngine {
   constructor() {
@@ -29,7 +32,62 @@ class SecurityEngine {
 
   /**
    * Main evaluation runner
-   */
+ */
+async checkRealEC2CPU(cpuRule, cpuThreshold, summary) {
+  if (!cpuRule || !process.env.AWS_EC2_INSTANCE_ID) {
+    return;
+  }
+
+  try {
+    const metric = await getEC2CPUUtilization(
+      process.env.AWS_EC2_INSTANCE_ID
+    );
+
+    if (!metric) {
+      console.log('[CLOUDWATCH] No EC2 CPU datapoints available.');
+      return;
+    }
+
+    const currentCpu = parseFloat(metric.average);
+
+    console.log(
+      `[CLOUDWATCH] EC2 CPU: ${currentCpu.toFixed(2)}%`
+    );
+
+    if (currentCpu >= cpuThreshold) {
+      const title =
+        `High EC2 CPU Utilization: ${metric.instanceId}`;
+
+      const description =
+        `EC2 instance "${metric.instanceId}" has CPU utilization of ` +
+        `${currentCpu.toFixed(2)}% (Threshold: ${cpuThreshold}%).`;
+
+      const alertResult = await this.createAlertIfNew(
+        cpuRule.id,
+        title,
+        description,
+        cpuRule.severity
+      );
+
+      if (alertResult.created) {
+        summary.alertsCreated++;
+
+        if (alertResult.incidentId) {
+          summary.incidentsCreated++;
+        }
+
+        summary.details.push(
+          `Alert created for EC2 CPU ${metric.instanceId}`
+        );
+      }
+    }
+  } catch (error) {
+    console.error(
+      '[CLOUDWATCH] EC2 CPU check failed:',
+      error.message
+    );
+  }
+}
   async evaluateAllRules() {
     if (this.isRunning) {
       console.log('[ENGINE] Evaluation already in progress. Skipping cycle.');
@@ -80,6 +138,10 @@ class SecurityEngine {
         }
       }
 
+// Real AWS EC2 CPU check
+const cpuRule = rules.find(r => r.rule_code === 'RULE_EC2_CPU_HIGH');
+await this.checkRealEC2CPU(cpuRule, cpuThreshold, summary);
+
       // 4. Evaluate Cloud Resources rules
       const [resources] = await query('SELECT * FROM cloud_resources');
 
@@ -102,22 +164,6 @@ class SecurityEngine {
               summary.alertsCreated++;
               if (alertResult.incidentId) summary.incidentsCreated++;
               summary.details.push(`Alert created for S3 Bucket ${res.resource_name}`);
-            }
-          }
-        }
-
-        // Rule: High EC2 CPU
-        const cpuRule = rules.find(r => r.rule_code === 'RULE_EC2_CPU_HIGH');
-        if (cpuRule && (res.resource_type.includes('EC2') || res.resource_type.includes('Instance'))) {
-          const currentCpu = parseFloat(config.cpu_utilization || 0);
-          if (currentCpu >= cpuThreshold) {
-            const title = `EC2 Compute Spiking (${currentCpu}% CPU): ${res.resource_name}`;
-            const description = `Compute instance "${res.resource_name}" sustained high CPU utilization of ${currentCpu}% (Threshold: ${cpuThreshold}%). Potential DoS or anomaly.`;
-            const alertResult = await this.createAlertIfNew(cpuRule.id, title, description, cpuRule.severity);
-            if (alertResult.created) {
-              summary.alertsCreated++;
-              if (alertResult.incidentId) summary.incidentsCreated++;
-              summary.details.push(`Alert created for EC2 CPU ${res.resource_name}`);
             }
           }
         }
